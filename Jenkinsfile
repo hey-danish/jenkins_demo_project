@@ -3,7 +3,7 @@ pipeline {
     environment {
         NEW_VERSION = '1.1.0'
         GIT_CREDENTIALS = credentials('GitDanish')
-        DOCKERHUB_CREDENTIALS = credentials('DockerHubCredential')
+        DOCKERHUB_CREDENTIALS = credentials('DockerHubDanishCredential')
         IMAGE_NAME = 'heydanish/django_rest_framework'
         IMAGE_TAG = 'v1.0'
     }

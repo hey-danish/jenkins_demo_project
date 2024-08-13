@@ -12,8 +12,14 @@ pipeline {
         booleanParam( name: 'executeTestBlock', defaultValue: true, description: 'Want to execute the Testing Block?' )
     }
     stages{
+        
         stage('Build & Push Docker Image') {
             steps {
+                when {
+                    expression {
+                        params.executeTestBlock == false
+                    }
+                }
                 script {
                     // Load Docker Hub credentials from Jenkins credentials store
                     withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS, usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {

@@ -13,11 +13,15 @@ pipeline {
     stages{
         
         stage('Build & Push Docker Image') {
-            agent {
-                dockerfile true
-            }
             steps {
-                echo 'This step successfuil'
+                script {
+                    def registryUrl = 'https://hub.docker.com/'
+                    def registryCredentialsId = 'DockerHubDanishCredential'
+                    docker.withRegistry( registryUrl, registryCredentialsId ) {
+                        def image = docker.build('heydanish/jenkins_demo_project:${env.BUILD_NUMBER}')
+                        image.push()
+                    }
+                }
             }
         }
         stage("Stage: Building") {

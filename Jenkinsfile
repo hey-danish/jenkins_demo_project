@@ -13,6 +13,9 @@ pipeline {
     stages{
         
         stage('Build & Push Docker Image') {
+            agent {
+                dockerfile true
+            }
             steps {
                 script {
                     def registryUrl = 'https://index.docker.io/v1/'

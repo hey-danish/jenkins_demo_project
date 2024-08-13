@@ -5,7 +5,6 @@ pipeline {
         GIT_CREDENTIALS = credentials('GitDanish')
         DOCKERHUB_CREDENTIALS = credentials('DockerHubDanishCredential')
         IMAGE_NAME = 'heydanish/django_rest_framework'
-        IMAGE_TAG = 'v1.0'
     }
     parameters {
         string( name: 'VERSION', defaultValue: '', description: 'Dummy description of this version field' )
@@ -21,11 +20,11 @@ pipeline {
                         // Login to Docker Hub
                         sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
                         // Build Docker image
-                        sh "docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} ."
+                        sh "docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${currentBuild.number} ."
                         // Tag the Docker image
-                        sh "docker tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} index.docker.io/${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
+                        sh "docker tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${currentBuild.number} index.docker.io/${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
                         // Push Docker image to Docker Hub
-                        sh "docker push index.docker.io/${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"                        
+                        sh "docker push index.docker.io/${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${currentBuild.number}"                        
                     }
                 }
             }

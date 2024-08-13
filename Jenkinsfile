@@ -14,7 +14,7 @@ pipeline {
         
         stage('Build & Push Docker Image') {
             agent {
-                docker { image ${IMAGE_NAME} }
+                docker { image "${IMAGE_NAME}:v1.0" }
             }
             steps {
                 echo 'This step successfuil'

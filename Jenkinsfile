@@ -3,7 +3,6 @@ pipeline {
     environment {
         NEW_VERSION = '1.1.0'
         GIT_CREDENTIALS = credentials('GitDanish')
-        DOCKERHUB_CREDENTIALS = credentials('DockerHubDanishCredential')
         IMAGE_NAME = 'heydanish/django_rest_framework'
     }
     parameters {
@@ -14,25 +13,11 @@ pipeline {
     stages{
         
         stage('Build & Push Docker Image') {
+            agent {
+                docker { image ${IMAGE_NAME} }
+            }
             steps {
-                when {
-                    expression {
-                        params.executeTestBlock == false
-                    }
-                }
-                script {
-                    // Load Docker Hub credentials from Jenkins credentials store
-                    withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS, usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        // Login to Docker Hub
-                        sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
-                        // Build Docker image
-                        sh "docker build -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${currentBuild.number} ."
-                        // Tag the Docker image
-                        sh "docker tag ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${currentBuild.number} index.docker.io/${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}"
-                        // Push Docker image to Docker Hub
-                        sh "docker push index.docker.io/${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${currentBuild.number}"                        
-                    }
-                }
+                echo 'This step successfuil'
             }
         }
         stage("Stage: Building") {

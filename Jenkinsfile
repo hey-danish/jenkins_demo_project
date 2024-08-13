@@ -20,7 +20,7 @@ pipeline {
                 script {
                     def registryUrl = 'https://index.docker.io/v1/'
                     def registryCredentialsId = 'DockerHubDanishCredential'
-                    docker.withRegistry( registryUrl, registryCredentialsId ) {
+                    withRegistry( registryUrl, registryCredentialsId ) {
                         def image = docker.build('heydanish/jenkins_demo_project:${env.BUILD_NUMBER}')
                         image.push()
                     }

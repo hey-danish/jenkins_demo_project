@@ -10,6 +10,11 @@ pipeline {
         booleanParam( name: 'executeTestBlock', defaultValue: true, description: 'Want to execute the Testing Block?' )
     }
     stages{
+        stage('Dummy Stage') {
+            steps {
+                git 'https://github.com/hey-danish/jenkins_demo_project'
+            }
+        }
         stage("Stage: Building") {
             environment {
                 AUTHOR = 'MD Abid'

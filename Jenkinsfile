@@ -15,7 +15,7 @@ pipeline {
         stage('Build & Push Docker Image') {
             steps {
                 script {
-                    def registryUrl = 'https://hub.docker.com/'
+                    def registryUrl = 'https://hub.docker.com/repositories/heydanish'
                     def registryCredentialsId = 'DockerHubDanishCredential'
                     docker.withRegistry( registryUrl, registryCredentialsId ) {
                         def image = docker.build('heydanish/jenkins_demo_project:${env.BUILD_NUMBER}')
